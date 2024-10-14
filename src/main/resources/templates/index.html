@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora IPv4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="number"], input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input#direccion {
+            width: 200px;
+            margin-right: 5px;
+        }
+        input#mascara {
+            width: 50px;
+        }
+        .slash {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .input-group {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .example {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .resultados {
+            margin-top: 20px;
+        }
+        .resultado {
+            background-color: #e9f7ef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        /* Estilos adicionales para binario */
+        .network-part {
+            background-color: red;
+            color: white;
+            padding: 2px;
+        }
+
+        .host-part {
+            background-color: green;
+            color: white;
+            padding: 2px;
+        }
+
+        .binary-container {
+            font-family: monospace;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Calculadora IPv4</h1>
+    <form action="/calculadora" method="post">
+        <div class="input-group">
+            <label for="direccion">Dirección IP:</label>
+            <input type="text" id="direccion" name="ip" placeholder="192.168.1.1"  pattern="^([0-9]{1,3}.){3}[0-9]{1,3}$" title="Ingrese una IP válida (ej: 192.168.1.1)" required>
+            <span class="slash">/</span>
+            <label for="mascara">Máscara:</label>
+            <input type="number" id="mascara" name="mascara" placeholder="24" min="0" max="32" required>
+        </div>
+        <button type="submit">Enviar</button>
+        <div class="example">
+            <p>Ejemplo: 192.168.1.1 / 24</p>
+        </div>
+    </form>
+
+    <!-- Sección de resultados -->
+    <div class="resultados">
+        <h2>Resultados:</h2>
+        <div class="resultado">
+            <strong>IP:</strong> <span th:text="${direccion_ip}"></span>
+        </div>
+        <div class="resultado">
+            <strong>Máscara de red:</strong> <span th:text="${mascara_red}"></span>
+        </div>
+        <div class="resultado">
+            <strong>Dirección de red:</strong> <span th:text="${direccion_red}"></span>
+        </div>
+        <div class="resultado">
+            <strong>Dirección de Broadcast:</strong> <span th:text="${broadcast}"></span>
+        </div>
+        <div class="resultado">
+            <strong>Número de Hosts:</strong> <span th:text="${numerohost}"></span>
+        </div>
+        <div class="resultado">
+            <strong>Clase IP:</strong> <span th:text="${clase_ip}"></span>
+        </div>
+        <div class="resultado">
+            <strong>Tipo IP:</strong> <span th:text="${tipoIp}"></span>
+        </div>
+        <!-- Nueva sección para binario -->
+        <div class="resultado binary-container">
+            <strong>Parte de red y host (binario):</strong> <span class="network-part" th:text="${porcion_red}"></span>
+             <span class="host-part" th:text="${porcion_host}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
